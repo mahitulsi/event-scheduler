@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event Scheduler</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f4f7;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            width: 450px;
+            border-radius: 6px;
+        }
+        input, button {
+            margin: 5px 0;
+            padding: 6px;
+            width: 100%;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Event Scheduler & Conflict Detector</h2>
+
+<div class="container">
+
+    <h4>Working Hours</h4>
+    Start: <input type="time" id="workStart" value="08:00">
+    End: <input type="time" id="workEnd" value="18:00">
+
+    <h4>Add Event</h4>
+    <input type="text" id="name" placeholder="Event Name">
+    <input type="time" id="start">
+    <input type="time" id="end">
+    <button onclick="addEvent()">Add Event</button>
+    <button onclick="checkConflicts()">Check Conflicts</button>
+
+    <h4>Sorted Schedule</h4>
+    <ul id="schedule"></ul>
+
+</div>
+
+<script>
+let events = [];
+
+function toMinutes(t) {
+    let [h, m] = t.split(":");
+    return parseInt(h) * 60 + parseInt(m);
+}
+
+function toTime(m) {
+    return String(Math.floor(m / 60)).padStart(2, '0') + ":" +
+           String(m % 60).padStart(2, '0');
+}
+
+function addEvent() {
+    let name = document.getElementById("name").value;
+    let start = document.getElementById("start").value;
+    let end = document.getElementById("end").value;
+
+    if (!name || !start || !end) {
+        alert("Please fill all fields");
+        return;
+    }
+
+    events.push({ name, start, end });
+    events.sort((a, b) => toMinutes(a.start) - toMinutes(b.start));
+    displayEvents();
+}
+
+function displayEvents() {
+    let list = document.getElementById("schedule");
+    list.innerHTML = "";
+    events.forEach(e => {
+        let li = document.createElement("li");
+        li.innerText = `${e.name} (${e.start} - ${e.end})`;
+        list.appendChild(li);
+    });
+}
+
+function checkConflicts() {
+    for (let i = 0; i < events.length - 1; i++) {
+        if (events[i].end > events[i + 1].start) {
+            suggestSlot(events[i]);
+            return;
+        }
+    }
+    alert("No conflicts found");
+}
+
+function suggestSlot(event) {
+    let ws = toMinutes(document.getElementById("workStart").value);
+    let we = toMinutes(document.getElementById("workEnd").value);
+    let duration = toMinutes(event.end) - toMinutes(event.start);
+
+    let current = ws;
+    for (let e of events) {
+        let es = toMinutes(e.start);
+        if (current + duration <= es) break;
+        current = toMinutes(e.end);
+    }
+
+    if (current + duration <= we) {
+        alert(
+            `Conflict detected!\nSuggested slot for "${event.name}":\n` +
+            `${toTime(current)} - ${toTime(current + duration)}`
+        );
+    } else {
+        alert("No available slot within working hours");
+    }
+}
+</script>
+
+</body>
+</html>
