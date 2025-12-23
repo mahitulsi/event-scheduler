@@ -1,47 +1,46 @@
 # Event Scheduler and Conflict Detector
 
 ## Problem Statement
-The Event Scheduler and Conflict Detector is a simple program that allows users
-to add daily events with start and end times. The system sorts events based on
-start time and detects any scheduling conflicts between events.
+Build a system to manage daily events by allowing users to add events with
+start time, end time, and description. The system should sort events, detect
+conflicts, and suggest alternative time slots.
 
 ## Scenario
-Users can enter multiple events such as meetings, workshops, or breaks.
-The program helps organize these events and alerts the user if any events
-overlap in time.
+Users add events such as meetings, workshops, and breaks. If events overlap,
+the system identifies conflicts and recommends a new time within working hours.
 
 ## Features
-- User input for adding events
-- Automatic sorting of events by start time
-- Detection of conflicting events
-- Simple and beginner-friendly Python code
+- Add events with start and end times
+- Sort events by start time
+- Detect scheduling conflicts
+- Suggest alternative time slots
+- Graphical interface using HTML and JavaScript
+- User-defined working hours
 
 ## Example Input
-Enter number of events: 4  
-Meeting A, 09:00 - 10:30  
-Workshop B, 10:00 - 11:30  
-Lunch Break, 12:00 - 13:00  
-Presentation C, 10:30 - 12:00  
+- Meeting A: 09:00 – 10:30
+- Workshop B: 10:00 – 11:30
+- Lunch Break: 12:00 – 13:00
+- Presentation C: 10:30 – 12:00
 
 ## Example Output
-Sorted Schedule:
-- Meeting A (09:00 - 10:30)
-- Workshop B (10:00 - 11:30)
-- Presentation C (10:30 - 12:00)
-- Lunch Break (12:00 - 13:00)
-
 Conflicting Events:
-- Meeting A conflicts with Workshop B
-- Workshop B conflicts with Presentation C
+- Meeting A and Workshop B
+- Workshop B and Presentation C
+
+Suggested Resolution:
+- Reschedule Workshop B to 13:00 – 14:30
 
 ## Technology Used
-- Python 3
+- Python (with user input version)
+- HTML
+- JavaScript
 - GitHub
 
 ## AI Tools Used
 Perplexity was used to:
 - Understand the problem statement
-- Design the event scheduling logic
-- Generate and explain Python code
-- Improve documentation clarity
-
+- Design event scheduling logic
+- Implement conflict detection
+- Suggest alternative time slot algorithm
+- Improve code structure and documentation
